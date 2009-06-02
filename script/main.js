@@ -8,6 +8,8 @@ var canvas = buildCanvas();
 var ctx = canvas.getContext('2d');
 var tool = new Pencil();
 
+drawPaths();
+
 $(document).keypress(function(e) {
 	if(e.charCode == 26 || (e.charCode == 122 && e.ctrlKey)) { // safari
 		paths.pop();
@@ -26,7 +28,7 @@ $('.colors div').click(function(e){
 $('#lineWidth').change(function(e){
 	var value = parseInt(e.target.value);
 	if(value) currentLineWidth = value;
-}).mousedown(function(e) {
+}).mousedown(function(e) { // pseudo-slider support
 	this.dragging = true;
 }).mouseup(function(e) {
 	this.dragging = false;
@@ -55,9 +57,6 @@ $('#colorpicker').ColorPicker({
 		changeControlsColor();
 	}
 });
-
-
-drawPaths();
 
 function drawPaths() {
 	if(paths.length == 0) return;
