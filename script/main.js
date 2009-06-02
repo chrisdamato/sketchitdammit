@@ -12,7 +12,6 @@ var tool = new Pencil();
 drawPaths();
 
 $(document).keypress(function(e) {
-	$('a').html(e.charCode)
 	if(e.charCode == 26 || (e.charCode == 122 && e.ctrlKey)) { // undo
 		undoRedo(paths, redoPaths);
 	} else	if(e.charCode == 25 || (e.charCode == 121 && e.ctrlKey)) { // redo
