@@ -41,12 +41,12 @@ canvas {
 }
 
 #colorpicker {
-	background: url(../img/select.png);
+	background: url(../img/select2.png);
 	height: 36px; width: 36px;
 	position: relative;
 }
 #colorpicker div {
-	background: #000 url(../img/select.png) center;
+	background: #000 url(../img/select2.png) center;
 	position: absolute;
 	height: 30px; width: 30px;
 	top: 3px; left: 3px;
