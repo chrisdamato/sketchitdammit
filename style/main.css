@@ -20,7 +20,6 @@ canvas {
 	width: 36px;
 }
 #status {
-	border-style: none;
 	display: none;
 	font-size: 1em;
 }

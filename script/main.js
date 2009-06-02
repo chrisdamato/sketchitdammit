@@ -88,8 +88,7 @@ function drawPaths() {
 }
 function changeControlsColor() {
 	var color = currentColor == 'rgb(255,255,255)' ? 'black' : currentColor;
-	$('#new').css('color', color);
-	$('#lineWidth').css('color', color);
+	$('.tools *').css('color', color);
 }
 
 function Pencil() {
