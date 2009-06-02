@@ -138,12 +138,26 @@ function Pencil() {
 }
 
 function save() {
+	if(this.saving) {
+		this.pendingSave = true;
+		return;
+	}
+	this.saving = true;
+	var ref = this;
 	$.post('save', {'width': $(canvas).width(),
 			'height': $(canvas).height(),
 			'url': url, // url is defined outside
-			'paths': printPaths()}, function(){
-		$('#status').fadeIn().fadeOut();
-	});
+			'paths': printPaths()},
+			function() {
+				$('#status').fadeIn().fadeOut(function() {
+					ref.saving = false;	
+					if(ref.pendingSave) {
+						ref.pendingSave = false;
+						save();
+					}
+				});
+			}
+	);
 }
 
 function printPaths() {
