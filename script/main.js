@@ -19,6 +19,7 @@ $(document).keypress(function(e) {
 });
 
 $('.colors div').click(function(e){
+	// mwahaha
 	currentColor = getComputedStyle(e.target, null).getPropertyValue('background-color');
 });
 $('#lineWidth').change(function(e){
@@ -58,25 +59,21 @@ function Pencil() {
 		currentPath = {points: [], color: currentColor, stroke: currentLineWidth};
 	};
 
-	// This function is called every time you move the mouse. Obviously, it only 
-	// draws if the tool.started state is set to true (when you are holding down 
-	// the mouse button).
-	this.mousemove = function(ev) {
+	this.mousemove = function(e) {
 		if (!tool.started) return;
 
 		ctx.lineWidth   = currentLineWidth;
 		ctx.strokeStyle = currentColor;
 		
-		ctx.lineTo(ev._x, ev._y);
+		ctx.lineTo(e._x, e._y);
 		ctx.stroke();
 
-		currentPath.points.push({x: ev._x, y: ev._y, });
+		currentPath.points.push({x: e._x, y: e._y, });
 	};
 
-	// This is called when you release the mouse button.
-	this.mouseup = function(ev) {
+	this.mouseup = function(e) {
 		if (tool.started) {
-			tool.mousemove(ev);
+			tool.mousemove(e);
 			tool.started = false;
 		}
 		
@@ -97,22 +94,6 @@ function save() {
 	});
 }
 
-function eventHandler(ev) {
-	if (ev.layerX || ev.layerX == 0) { // Firefox
-		ev._x = ev.layerX;
-		ev._y = ev.layerY;
-	} else if (ev.offsetX || ev.offsetX == 0) { // Opera
-		ev._x = ev.offsetX;
-		ev._y = ev.offsetY;
-	}
-	
-	ev._x -= $('canvas').position().left;
-	ev._y -= $('canvas').position().top;
-
-	// Call the event handler of the tool.
-	tool[ev.type](ev);
-}
-
 function printPaths() {
 	var s = ['['];
 	for(i in paths) {
@@ -126,9 +107,11 @@ function printPaths() {
 		s.push(']},');
 	}
 	s.push(']');
+	// removes last comma
 	return s.join('').replace(/,\]/g, ']');
 }
 
+// used for lack of percentage dimensions support
 function buildCanvas() {
 	var canvasContainer = $('.container')[0];
 	var canvas = document.createElement('canvas');
@@ -145,6 +128,22 @@ function buildCanvas() {
 	canvas.addEventListener('mouseup',	 eventHandler, false);
 	
 	return canvas;
+}
+
+function eventHandler(e) {
+	if (e.layerX || e.layerX == 0) { // Firefox
+		e._x = e.layerX;
+		e._y = e.layerY;
+	} else if (e.offsetX || e.offsetX == 0) { // Opera
+		e._x = e.offsetX;
+		e._y = e.offsetY;
+	}
+	
+	// canvas mouse event handling bug
+	e._x -= $('canvas').position().left;
+	e._y -= $('canvas').position().top;
+
+	tool[e.type](e);
 }
 
 })});
