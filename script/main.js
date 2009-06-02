@@ -3,11 +3,11 @@ $(function(){
 $('#colorpicker').ColorPicker({
 	color: '#000',
 	onShow: function (colpkr) {
-		$(colpkr).fadeIn(500);
+		$(colpkr).slideDown(250);
 		return false;
 	},
 	onHide: function (colpkr) {
-		$(colpkr).fadeOut(500);
+		$(colpkr).slideUp(250);
 		return false;
 	},
 	onChange: function (hsb, hex, rgb) {

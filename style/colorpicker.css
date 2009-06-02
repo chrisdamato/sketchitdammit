@@ -23,7 +23,7 @@
 	left: 0;
 	width: 150px;
 	height: 150px;
-	background: url(../img/custom_overlay.png);
+	background: url(../img/colorpicker_overlay.png);
 }
 .colorpicker_color div div {
 	position: absolute;
