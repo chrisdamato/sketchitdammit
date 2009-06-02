@@ -52,7 +52,7 @@ $('#colorpicker').ColorPicker({
 	onChange: function (hsb, hex, rgb) {
 		$('#colorpicker div').css('backgroundColor', '#' + hex);
 		currentColor = 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')';
-		changeLinkColor();
+		changeControlsColor();
 	}
 });
 
@@ -84,10 +84,12 @@ function drawPaths() {
 	function rgb(r, g, b) { return {r: r, g: g, b: b}};
 	$('#colorpicker').ColorPickerSetColor(eval(currentColor));
 	$('#colorpicker div').css('background-color', currentColor);
-	changeLinkColor();
+	changeControlsColor();
 }
-function changeLinkColor() {
-	$('#new').css('color', currentColor == 'rgb(255,255,255)' ? 'black' : currentColor);
+function changeControlsColor() {
+	var color = currentColor == 'rgb(255,255,255)' ? 'black' : currentColor;
+	$('#new').css('color', color);
+	$('#lineWidth').css('color', color);
 }
 
 function Pencil() {
