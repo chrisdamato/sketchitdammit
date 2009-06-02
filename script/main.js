@@ -1,5 +1,32 @@
 $(function(){
 
+var currentColor = 'rgb(0,0,0)';
+var currentLineWidth = $('#lineWidth').val();
+var currentPath = [];
+
+var canvas = buildCanvas();
+var ctx = canvas.getContext('2d');
+var tool = new Pencil();
+
+$(document).keypress(function(e) {
+	if(e.charCode == 26 || (e.charCode == 122 && e.ctrlKey)) { // safari
+		paths.pop();
+		ctx.clearRect(0, 0, $(canvas).width(), $(canvas).height())
+		drawPaths();
+		save();
+	} else if(e.keyCode == 27) { // esc
+		$('.colorpicker').slideUp();
+	}
+});
+
+$('.colors div').click(function(e){
+	// mwahaha
+	currentColor = getComputedStyle(e.target, null).getPropertyValue('background-color');
+});
+$('#lineWidth').change(function(e){
+	var value = parseInt(e.target.value);
+	if(value) currentLineWidth = value;
+})
 $('#colorpicker').ColorPicker({
 	color: '#000',
 	onShow: function (colpkr) {
@@ -16,31 +43,6 @@ $('#colorpicker').ColorPicker({
 	}
 });
 
-var currentColor = 'rgb(0,0,0)';
-var currentLineWidth = 1;
-var currentPath = [];
-
-var canvas = buildCanvas();
-var ctx = canvas.getContext('2d');
-var tool = new Pencil();
-
-$(document).keypress(function(e) {
-	if(e.charCode == 26 || (e.charCode == 122 && e.ctrlKey)) { // safari
-		paths.pop();
-		ctx.clearRect(0, 0, $(canvas).width(), $(canvas).height())
-		drawPaths();
-		save();
-	}
-});
-
-$('.colors div').click(function(e){
-	// mwahaha
-	currentColor = getComputedStyle(e.target, null).getPropertyValue('background-color');
-});
-$('#lineWidth').change(function(e){
-	var value = parseInt(e.target.value);
-	if(value) currentLineWidth = value;
-})
 
 drawPaths();
 
