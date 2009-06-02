@@ -32,11 +32,10 @@ $('#lineWidth').change(function(e){
 	this.dragging = false;
 }).mousemove(function(e){
 	if(!this.dragging) return;
-	var el = $(e.target);
-	var diff = el.position().top + el.height() - e.pageY;
-	var val = parseInt(currentLineWidth) + (diff > 0 ? 1 : -1);
-	if(val < 1) val = 1;
+	var val = parseInt(currentLineWidth) + (e.pageX > this.lastX ? 1 : -1);
+	this.lastX = e.pageX;
 	if(!val) return;
+	if(val < 1) val = 1;
 	this.value = val;
 	currentLineWidth = val;
 });
@@ -53,6 +52,7 @@ $('#colorpicker').ColorPicker({
 	onChange: function (hsb, hex, rgb) {
 		$('#colorpicker div').css('backgroundColor', '#' + hex);
 		currentColor = 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')';
+		changeLinkColor();
 	}
 });
 
@@ -75,14 +75,19 @@ function drawPaths() {
 		}
 		ctx.closePath();
 	}
+	
+	// sets the configs to the last path made
 	var last = paths[paths.length - 1];
 	currentColor = last.color;
 	currentLineWidth = last.stroke;
 	$('#lineWidth').val(currentLineWidth);
 	function rgb(r, g, b) { return {r: r, g: g, b: b}};
-		console.log(eval(currentColor))
 	$('#colorpicker').ColorPickerSetColor(eval(currentColor));
 	$('#colorpicker div').css('background-color', currentColor);
+	changeLinkColor();
+}
+function changeLinkColor() {
+	$('#new').css('color', currentColor == 'rgb(255,255,255)' ? 'black' : currentColor);
 }
 
 function Pencil() {
@@ -185,7 +190,3 @@ function eventHandler(e) {
 	tool[e.type](e);
 }
 });
-
-function reset() {
-	window.location = '/';
-}

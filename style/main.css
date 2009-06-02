@@ -14,7 +14,7 @@ canvas {
 
 #lineWidth {
 	border: 1px solid black;
-	cursor: n-resize;
+	cursor: e-resize;
 	font-size: 1em;
 	padding: 0;
 	width: 36px;
@@ -23,14 +23,6 @@ canvas {
 	border-style: none;
 	display: none;
 	font-size: 1em;
-}
-
-#new {
-	border: 1px solid black;
-	font-size: 1em;
-	height: 22px;
-	padding: 0;
-	width: 38px;
 }
 
 .tools {
