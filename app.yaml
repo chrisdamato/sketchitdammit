@@ -1,0 +1,14 @@
+application: sketchitdammit
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /script
+  static_dir: script
+- url: /img
+  static_dir: img
+- url: /style
+  static_dir: style
+- url: .*
+  script: main.py

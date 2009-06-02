@@ -1,0 +1,48 @@
+body {
+	font-family: Tahoma, Arial, "MS Trebuchet", sans-serif;
+}
+
+.container { width: 90%; height: 90%; position: absolute;}
+canvas {
+	border: 1px solid black;
+	margin-top: 5px;
+}
+
+.colors {
+	display: inline;
+}
+
+.colors div {
+	border: 1px solid black;
+	height: 20px;
+	width: 20px;
+	cursor: pointer;
+	float: left;
+	margin-left: 2px;
+}
+.black  {background: #000;}
+.white  {background: #fff;}
+.green  {background: green;}
+.blue   {background: blue;}
+.red    {background: red;}
+.orange {background: orange;}
+
+#lineWidth {
+	border: 1px solid black;
+	font-size: 1em;
+	margin-left: 2px;
+	padding: 0;
+	width: 30px;
+}
+#status {
+	border-style: none;
+	display: none;
+	font-size: 1em;
+}
+
+#new {
+	border: 1px solid black;
+	font-size: 1em;
+	height: 22px;
+	padding: 0;
+}
