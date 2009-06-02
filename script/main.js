@@ -26,7 +26,20 @@ $('.colors div').click(function(e){
 $('#lineWidth').change(function(e){
 	var value = parseInt(e.target.value);
 	if(value) currentLineWidth = value;
-})
+}).mousedown(function(e) {
+	this.dragging = true;
+}).mouseup(function(e) {
+	this.dragging = false;
+}).mousemove(function(e){
+	if(!this.dragging) return;
+	var el = $(e.target);
+	var diff = el.position().top + el.height() - e.pageY;
+	var val = parseInt(currentLineWidth) + (diff > 0 ? 1 : -1);
+	if(val < 1) val = 1;
+	if(!val) return;
+	this.value = val;
+	currentLineWidth = val;
+});
 $('#colorpicker').ColorPicker({
 	color: '#000',
 	onShow: function (colpkr) {
@@ -62,15 +75,23 @@ function drawPaths() {
 		}
 		ctx.closePath();
 	}
+	var last = paths[paths.length - 1];
+	currentColor = last.color;
+	currentLineWidth = last.stroke;
+	$('#lineWidth').val(currentLineWidth);
+	function rgb(r, g, b) { return {r: r, g: g, b: b}};
+		console.log(eval(currentColor))
+	$('#colorpicker').ColorPickerSetColor(eval(currentColor));
+	$('#colorpicker div').css('background-color', currentColor);
 }
 
 function Pencil() {
 	var tool = this;
 	this.started = false;
 
-	this.mousedown = function(ev) {
+	this.mousedown = function(e) {
 		ctx.beginPath();
-		ctx.moveTo(ev._x, ev._y);
+		ctx.moveTo(e._x, e._y);
 		tool.started = true;
 		
 		currentPath = {points: [], color: currentColor, stroke: currentLineWidth};
@@ -131,17 +152,19 @@ function printPaths() {
 function buildCanvas() {
 	var canvasContainer = $('.container')[0];
 	var canvas = document.createElement('canvas');
-	canvas.id = 'canvas';
-	canvas.width = canvasWidth || canvasContainer.scrollWidth;
-	canvas.height = canvasHeight || canvasContainer.scrollHeight;
-	canvas.style.width = canvasContainer.style.width + "px";
-	canvas.style.height = canvasContainer.style.height + "px";
-	canvas.style.overflow = 'visible';
-	canvas.style.position = 'absolute';
+	with(canvas) {
+		id = 'canvas';
+		width  = canvasWidth  || canvasContainer.scrollWidth;
+		height = canvasHeight || canvasContainer.scrollHeight;
+		style.width = canvasContainer.style.width + "px";
+		style.height = canvasContainer.style.height + "px";
+		style.overflow = 'visible';
+		style.position = 'absolute';
+		addEventListener('mousedown', eventHandler, false);
+		addEventListener('mousemove', eventHandler, false);
+		addEventListener('mouseup',	 eventHandler, false);
+	}
 	canvasContainer.appendChild(canvas);
-	canvas.addEventListener('mousedown', eventHandler, false);
-	canvas.addEventListener('mousemove', eventHandler, false);
-	canvas.addEventListener('mouseup',	 eventHandler, false);
 	
 	return canvas;
 }
@@ -161,7 +184,6 @@ function eventHandler(e) {
 
 	tool[e.type](e);
 }
-
 });
 
 function reset() {
