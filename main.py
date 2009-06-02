@@ -11,10 +11,11 @@ class MainHandler(webapp.RequestHandler):
 			img = self.get_image(url)
 			template_values = {}
 			if img != None: #invalid or expired url
-				template_values = {'paths': img.paths,
-									'width': img.width,
+				template_values = {'paths'  : img.paths,
+									'width' : img.width,
 									'height': img.height}
 
+			template_values['url'] = url
 			path = os.path.join(os.path.dirname(__file__), 'index.html')
 			self.response.out.write(template.render(path,
 				template_values))

@@ -4,38 +4,33 @@
 
 <html>
 	<head>
-		<title>Sketch It</title>
+		<title>Sketch it, dammit</title>
 
 <style type="text/css" media="screen">
+	@import url('/style/colorpicker.css');
 	@import url('/style/main.css');
 </style>
 
-<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript" src="/script/jquery.js" charset="utf-8"></script>
+<script type="text/javascript" src="/script/colorpicker.js" charset="utf-8"></script>
+<script type="text/javascript" src="/script/eye.js" charset="utf-8"></script>
+<script type="text/javascript" src="/script/utils.js" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">
+var paths        = {%firstof paths '[]'%};
+var canvasWidth  = '{{width}}';
+var canvasHeight = '{{height}}';
+var url          = '{{url}}';
+</script>
 <script type="text/javascript" src="/script/main.js" charset="utf-8"></script>
 
-<script type="text/javascript" charset="utf-8">
-var paths = {%firstof paths '[]'%};
-var canvasWidth = '{{width}}';
-var canvasHeight = '{{height}}';
-</script>
 	</head>
 	
 	<body id="content">
-		Sketch it, damn it
 		<div class="tools">
-			<div class="colors">
-				<div class="black">&nbsp;</div>
-				<div class="white">&nbsp;</div>
-				<div class="green">&nbsp;</div>
-				<div class="blue">&nbsp;</div>
-				<div class="red">&nbsp;</div>
-				<div class="orange">&nbsp;</div>
-			</div>
-			<div>
-				<input id="lineWidth" value="1"/>
-				<input id="new" onclick="reset()" type="button" value="new"/>
-				<span id="status">Saved</span>
-			</div>
+			<div id="colorpicker"><div></div></div>
+			<input id="lineWidth" value="1"/><br/>
+			<input id="new" onclick="reset()" type="button" value="new"/><br/>
+			<span id="status">Saved</span>
 		</div>
 		<div class="container">
 		</div>

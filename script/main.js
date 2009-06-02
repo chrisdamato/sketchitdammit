@@ -1,5 +1,20 @@
-google.load("jquery", "1.3.2");
-google.setOnLoadCallback(function(){$(function() {
+$(function(){
+
+$('#colorpicker').ColorPicker({
+	color: '#000',
+	onShow: function (colpkr) {
+		$(colpkr).fadeIn(500);
+		return false;
+	},
+	onHide: function (colpkr) {
+		$(colpkr).fadeOut(500);
+		return false;
+	},
+	onChange: function (hsb, hex, rgb) {
+		$('#colorpicker div').css('backgroundColor', '#' + hex);
+		currentColor = 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')';
+	}
+});
 
 var currentColor = 'rgb(0,0,0)';
 var currentLineWidth = 1;
@@ -85,11 +100,10 @@ function Pencil() {
 }
 
 function save() {
-	var url = window.location.toString().split('/');
-	url = url[url.length - 1];
 	$.post('save', {'width': $(canvas).width(),
 			'height': $(canvas).height(),
-			'url': url, 'paths': printPaths()}, function(){
+			'url': url, // url is defined outside
+			'paths': printPaths()}, function(){
 		$('#status').fadeIn().fadeOut();
 	});
 }
@@ -146,7 +160,7 @@ function eventHandler(e) {
 	tool[e.type](e);
 }
 
-})});
+});
 
 function reset() {
 	window.location = '/';
