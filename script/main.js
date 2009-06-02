@@ -3,6 +3,7 @@ $(function(){
 var currentColor = 'rgb(0,0,0)';
 var currentLineWidth = $('#lineWidth').val();
 var currentPath = [];
+var redoPaths   = [];
 
 var canvas = buildCanvas();
 var ctx = canvas.getContext('2d');
@@ -11,15 +12,23 @@ var tool = new Pencil();
 drawPaths();
 
 $(document).keypress(function(e) {
+	$('a').html(e.charCode)
 	if(e.charCode == 26 || (e.charCode == 122 && e.ctrlKey)) { // safari
-		paths.pop();
-		ctx.clearRect(0, 0, $(canvas).width(), $(canvas).height())
-		drawPaths();
-		save();
-	} else if(e.keyCode == 27) { // esc
+		redoPaths.push(paths.pop());
+		reset();
+	} else	if(e.charCode == 25 || (e.charCode == 121 && e.ctrlKey)) { // safari
+		paths.push(redoPaths.pop());
+		reset();
+	}else if(e.keyCode == 27) { // esc
 		$('.colorpicker').slideUp();
 	}
 });
+
+function reset(path) {
+	ctx.clearRect(0, 0, $(canvas).width(), $(canvas).height())
+	drawPaths();
+	save();
+}
 
 $('.colors div').click(function(e){
 	// mwahaha
@@ -120,8 +129,9 @@ function Pencil() {
 			tool.started = false;
 		}
 		
+		redoPaths = [];
 		paths.push(currentPath);
-		currentPath = {}
+		currentPath = {};
 		
 		save();
 	};
