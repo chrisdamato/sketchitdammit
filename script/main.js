@@ -13,18 +13,18 @@ drawPaths();
 
 $(document).keypress(function(e) {
 	$('a').html(e.charCode)
-	if(e.charCode == 26 || (e.charCode == 122 && e.ctrlKey)) { // safari
-		redoPaths.push(paths.pop());
-		reset();
-	} else	if(e.charCode == 25 || (e.charCode == 121 && e.ctrlKey)) { // safari
-		paths.push(redoPaths.pop());
-		reset();
+	if(e.charCode == 26 || (e.charCode == 122 && e.ctrlKey)) { // undo
+		undoRedo(paths, redoPaths);
+	} else	if(e.charCode == 25 || (e.charCode == 121 && e.ctrlKey)) { // redo
+		undoRedo(redoPaths, paths);
 	}else if(e.keyCode == 27) { // esc
 		$('.colorpicker').slideUp();
 	}
 });
 
-function reset(path) {
+function undoRedo(from, to) {
+	if(from.length == 0) return;
+	to.push(from.pop());
 	ctx.clearRect(0, 0, $(canvas).width(), $(canvas).height())
 	drawPaths();
 	save();
